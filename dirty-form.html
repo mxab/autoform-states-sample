@@ -1,0 +1,80 @@
+<body>
+<h1>Welcome to Meteor!</h1>
+
+{{#quickForm collection="Books" id="insertBookForm" type="insert" collection="Books"}}{{/quickForm}}
+<table border="1">
+    <thead>
+    <tr>
+        <th>Pristine</th>
+        <th>Clean</th>
+        <th>Dirty</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+        <td>{{#if afHasFormState 'pristine' formId='insertBookForm'}}
+            X{{/if}}</td>
+        <td>{{#if afHasFormState 'clean' formId='insertBookForm'}}X{{/if}}</td>
+        <td>{{#if afHasFormState 'dirty' formId='insertBookForm'}}X{{/if}}</td>
+    </tr>
+    </tbody>
+</table>
+<hr>
+{{>updateBookForm}}
+<hr>
+
+</body>
+
+<template name="updateBookForm">
+    <table>
+        <tbody>
+        {{#each books}}
+            <tr>
+                <td>{{title}}</td>
+                <td>
+                    <button class="js-edit" data-id="{{_id}}">Edit</button>
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+
+    {{#if book}}
+
+    {{#autoForm collection="Books" id="updateBookForm" type="update" collection="Books" doc=book}}
+        <fieldset>
+            <legend>Update</legend>
+            {{> afQuickField name='title'}}
+            {{> afQuickField name='author'}}
+            {{> afQuickField name='summary' rows=6}}
+            {{> afQuickField name='copies'}}
+            {{> afQuickField name='lastCheckedOut'}}
+        </fieldset>
+        <button type="submit" class="btn btn-primary" >Update</button>
+
+        <p>
+            Current State: {{afFormState}}
+        </p>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Pristine</th>
+                <th>Clean</th>
+                <th>Dirty</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>{{#if afHasFormState 'pristine'}}X{{/if}}</td>
+                <td>{{#if afHasFormState 'clean'}}X{{/if}}</td>
+                <td>{{#if afHasFormState 'dirty'}}X{{/if}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+    {{/autoForm}}
+    {{/if}}
+
+</template>
